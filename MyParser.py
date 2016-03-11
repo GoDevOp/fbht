@@ -13,6 +13,41 @@ def htmlFormat(json_dump):
     html = "<p><img src=\"https://graph.facebook.com/%s/picture\" > Name: %s - Link: <a href=\"%s\">facebook profile</a> - Gender: %s -Locale: %s</p>" %(json_dump['username'],json_dump['name'], json_dump['link'], json_dump['gender'], json_dump['locale']) 
     return html
 
+def parceros(json_dump):
+    parser = MyHTMLParser()
+    parser.array()
+    names = []
+    userIds = []
+    try:
+        to_parse = str(json_dump['domops'][0][3]['__html'])
+        parser.feed(to_parse)
+    except:
+        print 'Error in json dump or parser.feed'
+    i = 0
+    while True:
+        if ((parser.dataArray[i] == 'Test Users') or (parser.dataArray[i] == 'Delete') or (parser.dataArray[i] == 'Add') or
+            (parser.dataArray[i] == 'Name') or (parser.dataArray[i] == 'User ID') or (parser.dataArray[i] == 'Email') or
+            (parser.dataArray[i] == 'Edit') or (parser.dataArray[i] == 'tfbnw.net')):
+            del parser.dataArray[i]
+        else:
+            i += 1
+        if i == len(parser.dataArray):
+            break
+    
+    i = 0
+            
+    while i < (len(parser.dataArray) - 2):
+        names.append(parser.dataArray[i])
+        userIds.append(parser.dataArray[i+1])
+        i = i + 3
+
+    if ( userIds!=[] and names!=[]) and (parser.dataArray[0] != 'This app has no Test Users.'):
+        database.insertTestUsersDev(userIds,names)
+        return 1
+    else:
+        return -1    
+    
+  
 def parseData(dataRaw):
     parser = MyHTMLParser()
     parser.array()

